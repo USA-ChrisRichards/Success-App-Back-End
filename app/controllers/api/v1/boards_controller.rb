@@ -1,13 +1,13 @@
-class BoardsController < ApplicationController
+class Api::V1::BoardsController < ApplicationController
     before_action :set_board, only: [:show,:update,:destroy]
 
   def index
-    boards = board.all
+    boards = Board.all
     render json: boards, status: 200
   end
 
   def create
-    board = board.create(board_params)
+    board = Board.create(board_params)
     render json: board, status: 201
   end
 
@@ -32,8 +32,8 @@ class BoardsController < ApplicationController
   end
 
   def set_board
-    @board = board.find(params[:id])
+    @board = Board.find(params[:id])
   end
 end
 
-end
+

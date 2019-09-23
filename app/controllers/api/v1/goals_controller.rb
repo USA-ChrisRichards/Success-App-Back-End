@@ -1,13 +1,13 @@
-class GoalsController < ApplicationController
+class Api::V1::GoalsController < ApplicationController
     before_action :set_goal, only: [:show,:update,:destroy]
 
   def index
-    goals = goal.all
+    goals = Goal.all
     render json: goals, status: 200
   end
 
   def create
-    goal = goal.create(goal_params)
+    goal = Goal.create(goal_params)
     render json: goal, status: 201
   end
 
@@ -32,10 +32,10 @@ class GoalsController < ApplicationController
   end
 
   def set_goal
-    @goal = goal.find(params[:id])
+    @goal = Goal.find(params[:id])
   end
 end
 
 end
 
-end
+

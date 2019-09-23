@@ -1,13 +1,13 @@
-class ImagesController < ApplicationController
+class Api::V1::ImagesController < ApplicationController
     before_action :set_image, only: [:show,:update,:destroy]
 
   def index
-    images = image.all
+    images = Image.all
     render json: images, status: 200
   end
 
   def create
-    image = image.create(image_params)
+    image = Image.create(image_params)
     render json: image, status: 201
   end
 
@@ -32,10 +32,10 @@ class ImagesController < ApplicationController
   end
 
   def set_image
-    @image = image.find(params[:id])
+    @image = Image.find(params[:id])
   end
 end
 
-end
 
-end
+
+
