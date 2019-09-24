@@ -2,7 +2,8 @@ class Api::V1::GoalsController < ApplicationController
     before_action :set_goal, only: [:show,:update,:destroy]
 
   def index
-    goals = Goal.all
+    # goals = Goal.all
+    goals = Goal.where("board_id = ?", params[:board_id])
     render json: goals, status: 200
   end
 
@@ -36,6 +37,6 @@ class Api::V1::GoalsController < ApplicationController
   end
 end
 
-end
+
 
 

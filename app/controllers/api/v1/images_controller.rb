@@ -2,7 +2,8 @@ class Api::V1::ImagesController < ApplicationController
     before_action :set_image, only: [:show,:update,:destroy]
 
   def index
-    images = Image.all
+    # images = Image.all
+    images = Image.where("board_id = ?", params[:board_id])
     render json: images, status: 200
   end
 

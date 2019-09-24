@@ -2,7 +2,8 @@ class Api::V1::BoardsController < ApplicationController
     before_action :set_board, only: [:show,:update,:destroy]
 
   def index
-    boards = Board.all
+    # boards = Board.all
+    boards = Board.where("user_id = ?", params[:user_id])
     render json: boards, status: 200
   end
 
