@@ -1,34 +1,44 @@
 class Api::V1::UsersController < ApplicationController
-    before_action :set_user, only: [:show,:update,:destroy]
 
-  def index
-    users = User.all
-    render json: users, status: 200
-  end
+    ####* JWT ####
+    skip_before_action :authorized, only: [:create]
 
-  def create
-    user = User.create(user_params)
-    render json: user, status: 201
-  end
+    def profile
+      render json: { user: UserSerializer.new(current_user) }, status: :accepted
+    end
 
-  def update
-    @user.update(user_params)
-    render json: @user, status: 200
-  end
+    def index
+      users = User.all
+      render json: users
+    end
 
-  def destroy
-    userId = @user.id
-    @user.destroy
-    render json: {message:"User Deleted!", userId:userId}
-  end
+    def create
+      @user = User.create(user_params)
+      if @user.valid?
+        @token = encode_token(user_id: @user.id)
+        render json: { user: UserSerializer.new(@user), jwt: @token }, status: :created
+      else
+        render json: { error: 'failed to create user' }, status: :not_acceptable
+      end
+    end
+   
+
+  # def profile
+  #   render json: { user: UserSerializer.new(current_user) }, status: :accepted
+  # end
+
+  
 
   def show
-    render json: @user, status: 200
+    user = User.find(params[:id])
+    render json: user
   end
+
+end
 
   private
   def user_params
-    params.require(:user).permit(:first_name, :last_name, :email, :password, :location)
+    params.require(:user).permit(:first_name, :last_name, :email, :password, :location, :profile_photo)
     # params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation?, :location)
 
 end
@@ -40,9 +50,9 @@ end
 #   t.string :location
 #   t.string :profile_photo
 
-  def set_user
-    @user = User.find(params[:id])
-  end
-end
+#   def set_user
+#     @user = User.find(params[:email])
+#   end
+# end
 
 
