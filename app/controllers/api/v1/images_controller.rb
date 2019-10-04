@@ -2,8 +2,8 @@ class Api::V1::ImagesController < ApplicationController
     before_action :set_image, only: [:show,:update,:destroy]
 
   def index
-    # images = Image.all
-    images = Image.where("board_id = ?", params[:board_id])
+    images = Image.all
+    # images = Image.where("board_id = ?", params[:board_id])
     render json: images, status: 200
   end
 
@@ -29,7 +29,7 @@ class Api::V1::ImagesController < ApplicationController
 
   private
   def image_params
-    params.require(:image).permit(:title, :url)
+    params.require(:image).permit(:title, :url, :board_id)
   end
 
   def set_image

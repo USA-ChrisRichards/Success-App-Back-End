@@ -12,9 +12,9 @@ Rails.application.routes.draw do
         resources :boards
       end
       
-      resources :boards do 
-        resources :images
-      end
+      # resources :boards do 
+      #   resources :images
+      # end
       
       resources :boards do
         resources :goals
